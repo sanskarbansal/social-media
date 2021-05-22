@@ -6,10 +6,6 @@ const jwt = require("jsonwebtoken");
 //Check if user already exists or not, if user exists, then don't create else create a new user.
 router.post("/signup", async (req, res) => {
     const { firstName, lastName, username, password, mobileNumber, email } = req.body;
-    if (!firstName || !lastName || !username || !password || !mobileNumber || !email)
-        return res.status(403).json({
-            error: "PLEASE PROVIDE ALL THE PARAMTERS",
-        });
     let user = await User.findOne({ $or: [{ username }, { mobileNumber }, { email }] });
     if (user) {
         return res.status(404).json({

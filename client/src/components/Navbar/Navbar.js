@@ -5,6 +5,7 @@ import Home from "@material-ui/icons/Home";
 import { SideDrawer } from "./SideDrawer";
 import SearchIcon from "@material-ui/icons/Search";
 import { connect } from "react-redux";
+import { searchUsers } from "../../actions/search";
 
 const useStyles = makeStyles((theme) => ({
     search: {
@@ -56,17 +57,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const navLinks = [
-    { title: "Login", path: "/" },
-    { title: "Logout", path: "/" },
-];
-
 function Navbar(props) {
     const [search, setSearch] = useState("");
     const classes = useStyles();
-
+    const navLinks = [];
+    if (props.auth.isLoggedIn) {
+        const { firstName } = props.auth.user;
+        navLinks.push({ title: firstName, path: "/setting" });
+        navLinks.push({ title: "Logout", path: "/logout" });
+    }
     const handleSearch = (event) => {
         setSearch(event.target.value);
+        props.dispatch(searchUsers(event.target.value, 1, 5));
+        if (props.location.pathname !== "/dashboard") {
+            props.history.push("/dashboard");
+        }
     };
     return (
         <div style={{ marginBottom: 80 }}>
@@ -79,7 +84,10 @@ function Navbar(props) {
                         </Button>
                     </Link>
                     <Hidden smDown>
+                        {/* {style={{ height: "60px" }} */}
                         <Container maxWidth="xs">
+                            {/* <List style={{ height: "100%", padding: 0, background: `${results.length > 0 ? "black" : ""}` }}>
+                                <ListItem> */}
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
                                     <SearchIcon />
@@ -96,6 +104,19 @@ function Navbar(props) {
                                     inputProps={{ "aria-label": "search" }}
                                 />
                             </div>
+                            {/* </ListItem> */}
+                            {/* <Collapse in={results.length > 0} style={{ background: "black" }}>
+                                    {results.map((user) => (
+                                        <Link>
+                                            <ListItem key={user._id}>
+                                                <ListItemText>
+                                                    {user.firstName} {user.lastName}
+                                                </ListItemText>
+                                            </ListItem>
+                                        </Link>
+                                    ))}
+                                </Collapse>
+                            </List> */}
                         </Container>
                     </Hidden>
                     <Container className={classes.navDisplayFlex} maxWidth="xl">

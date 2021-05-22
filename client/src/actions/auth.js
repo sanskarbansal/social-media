@@ -1,7 +1,7 @@
-import jwtdecode from "jwt-decode";
-import { APIurls } from "../helpers/urls";
-import { fetchPosts } from "./posts";
 import { LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, RESET_SIGNUP, SIGNUP_FAILED, SIGNUP_START, SIGNUP_SUCCESS, LOGOUT_USER } from "./actionTypes";
+import { APIurls } from "../helpers/urls";
+import jwtdecode from "jwt-decode";
+import { fetchPosts } from "./posts";
 export const startLogin = () => ({
     type: LOGIN_START,
 });

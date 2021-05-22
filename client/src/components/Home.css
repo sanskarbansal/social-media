@@ -1,0 +1,42 @@
+.slideMe-enter {
+    /* opacity: 0; */
+    transform: translateX(-50%);
+}
+
+.slideMe-enter-active {
+    /* opacity: 1; */
+    transform: translateX(0);
+    transition: all 700ms;
+}
+
+.slideMe-exit {
+    transform: translateX(50%);
+}
+
+.slideMe-exit-active {
+    transform: translateX(0);
+    transition: all 700ms;
+}
+
+.jiggle-enter {
+    animation: jiggle 700ms ease-in 1;
+}
+.jiggle-exit {
+    animation: jiggle 700ms ease-in 1;
+}
+
+@keyframes jiggle {
+    0% {
+        transform: scale(0.9);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+    75% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
