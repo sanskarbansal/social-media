@@ -1,0 +1,21 @@
+POST http://localhost:1337/api/v1/friend/ HTTP/1.1
+Authorization: token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InNhbnNrYXJiYW5zYWwiLCJmaXJzdE5hbWUiOiJTYW5za2FyIiwibGFzdE5hbWUiOiJCYW5zYWwiLCJlbWFpbCI6InNhbnNrYXJibnNsNzVAZ21haWwuY29tIiwibW9iaWxlTnVtYmVyIjo4MDU5OTc2NjI5LCJhZGRyZXNzIjoiSW5kaWEiLCJfaWQiOiI2MGE3ODA5MjAzZWNkOTEwMWEwNTYzZWEifQ.UQruVRdI_py1IVay3w-rmEsLGPkWEV02tph_kthKj2U
+Content-Type: application/json
+
+{
+    "friendId": "60a780ab03ecd9101a0563eb"
+}
+
+###
+GET http://localhost:1337/api/v1/friend/ HTTP/1.1
+Authorization: token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhbWVzaCIsImZpcnN0TmFtZSI6IlJhbWVzaCIsImxhc3ROYW1lIjoiS3VtYXIiLCJlbWFpbCI6InJhbWVzZ0BnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOjg4OTkwMDExODgsImFkZHJlc3MiOiJJbmRpYSIsIl9pZCI6IjYwYTc4MGFiMDNlY2Q5MTAxYTA1NjNlYiJ9.bO9hkd_v_0Y57hCififSFlETq0i5yItqmlmGNy3hYHQ
+Content-Type: application/json
+
+###
+POST http://localhost:1337/api/v1/friend/accept HTTP/1.1
+Authorization: token eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhbWVzaCIsImZpcnN0TmFtZSI6IlJhbWVzaCIsImxhc3ROYW1lIjoiS3VtYXIiLCJlbWFpbCI6InJhbWVzZ0BnbWFpbC5jb20iLCJtb2JpbGVOdW1iZXIiOjg4OTkwMDExODgsImFkZHJlc3MiOiJJbmRpYSIsIl9pZCI6IjYwYTc4MGFiMDNlY2Q5MTAxYTA1NjNlYiJ9.bO9hkd_v_0Y57hCififSFlETq0i5yItqmlmGNy3hYHQ
+Content-Type: application/json
+
+{
+    "FriendRequestId": "60a780e703ecd9101a0563ec"
+}
