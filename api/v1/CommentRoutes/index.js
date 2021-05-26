@@ -41,14 +41,14 @@ router.post("/create", async (req, res) => {
     comment = await comment
         .populate({
             path: "user",
-            select: "firstName lastName ",
+            select: "firstName lastName avatar",
         })
         .populate({
             path: "likes",
             select: "user",
             populate: {
                 path: "user",
-                select: "username firstName lastName",
+                select: "username firstName lastName avatar",
             },
         })
         .execPopulate();

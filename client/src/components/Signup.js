@@ -23,14 +23,14 @@ class Signup extends Component {
             firstName: "",
             lastName: "",
             email: "",
-            number: null,
+            mobileNumber: null,
             usernameerror: false,
             passworderror: false,
             confirm_passworderror: false,
             firstNameerror: false,
             lastNameerror: false,
             emailerror: false,
-            numbererror: false,
+            mobileNumbererror: false,
             error: true,
         };
         this._validate = {
@@ -57,7 +57,7 @@ class Signup extends Component {
                 }
                 return true;
             },
-            number: (n) => {
+            mobileNumber: (n) => {
                 var phoneno = /^\d{10}$/;
                 if (n.match(phoneno)) return false;
                 return true;
@@ -77,13 +77,13 @@ class Signup extends Component {
                         usernameerror,
                         lastNameerror,
                         emailerror,
-                        numbererror,
+                        mobileNumbererror,
                         passworderror,
                         confirm_passworderror,
                         username,
                         lastName,
                         email,
-                        number,
+                        mobileNumber,
                         password,
                         confirm_password,
                     } = this.state;
@@ -93,13 +93,13 @@ class Signup extends Component {
                             usernameerror ||
                             lastNameerror ||
                             emailerror ||
-                            numbererror ||
+                            mobileNumbererror ||
                             passworderror ||
                             confirm_passworderror ||
                             !username ||
                             !lastName ||
                             !email ||
-                            !number ||
+                            !mobileNumber ||
                             !password ||
                             !confirm_password,
                         confirm_passworderror: this.state.password !== this.state.confirm_password,
@@ -110,7 +110,20 @@ class Signup extends Component {
     };
     handleSubmit = (event) => {
         event.preventDefault();
-        if (!this.state.error) this.props.dispatch(signup(this.state));
+        if (this.state.error) return;
+        const formData = new FormData();
+        for (let key in this.state) {
+            formData.append(key, this.state[key]);
+            console.log(formData);
+        }
+        // console.log(formData);
+        this.props.dispatch(signup(formData));
+    };
+    handleImageChange = (event) => {
+        this.setState({
+            ...this.state,
+            avatar: event.target.files[0],
+        });
     };
 
     render() {
@@ -177,12 +190,21 @@ class Signup extends Component {
                                     />
                                     <TextField
                                         autoComplete="off"
-                                        onChange={this.handleChange("number")}
+                                        FormHelperTextProps={hts}
+                                        className={classes.field}
+                                        type="file"
+                                        onChange={this.handleImageChange}
+                                        variant="outlined"
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        autoComplete="off"
+                                        onChange={this.handleChange("mobileNumber")}
                                         helperText="Don't worry we'll keep it secrete."
                                         FormHelperTextProps={hts}
                                         className={classes.field}
                                         label="Mobile Number"
-                                        error={this.state.numbererror}
+                                        error={this.state.mobileNumbererror}
                                         variant="outlined"
                                         type="number"
                                         fullWidth

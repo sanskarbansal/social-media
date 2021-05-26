@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AppBar, Toolbar, List, ListItem, ListItemText, makeStyles, Container, Hidden, Button, InputBase, fade } from "@material-ui/core";
+import { AppBar, Toolbar, List, ListItem, ListItemText, makeStyles, Container, Hidden, Button, InputBase, fade, Avatar } from "@material-ui/core";
 import { Link, withRouter } from "react-router-dom";
 import Home from "@material-ui/icons/Home";
 import { SideDrawer } from "./SideDrawer";
@@ -62,8 +62,8 @@ function Navbar(props) {
     const classes = useStyles();
     const navLinks = [];
     if (props.auth.isLoggedIn) {
-        const { firstName } = props.auth.user;
-        navLinks.push({ title: firstName, path: "/setting" });
+        // const { firstName } = props.auth.user;
+        // navLinks.push({ title: firstName, path: "/setting" });
         navLinks.push({ title: "Logout", path: "/logout" });
     }
     const handleSearch = (event) => {
@@ -74,7 +74,7 @@ function Navbar(props) {
         }
     };
     return (
-        <div style={{ marginBottom: 80 }}>
+        <div style={{ marginBottom: 100 }}>
             <AppBar position="fixed">
                 <Toolbar>
                     <Link to="/dashboard" style={{ textDecoration: "none", width: "450px" }}>
@@ -84,10 +84,7 @@ function Navbar(props) {
                         </Button>
                     </Link>
                     <Hidden smDown>
-                        {/* {style={{ height: "60px" }} */}
                         <Container maxWidth="xs">
-                            {/* <List style={{ height: "100%", padding: 0, background: `${results.length > 0 ? "black" : ""}` }}>
-                                <ListItem> */}
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
                                     <SearchIcon />
@@ -104,24 +101,18 @@ function Navbar(props) {
                                     inputProps={{ "aria-label": "search" }}
                                 />
                             </div>
-                            {/* </ListItem> */}
-                            {/* <Collapse in={results.length > 0} style={{ background: "black" }}>
-                                    {results.map((user) => (
-                                        <Link>
-                                            <ListItem key={user._id}>
-                                                <ListItemText>
-                                                    {user.firstName} {user.lastName}
-                                                </ListItemText>
-                                            </ListItem>
-                                        </Link>
-                                    ))}
-                                </Collapse>
-                            </List> */}
                         </Container>
                     </Hidden>
                     <Container className={classes.navDisplayFlex} maxWidth="xl">
                         <Hidden smDown>
                             <List component="nav" aria-labelledby="main navigation" className={classes.navDisplayFlex}>
+                                {props.auth.isLoggedIn ? (
+                                    <Link to="/setting">
+                                        <ListItem>
+                                            <Avatar src={`http://localhost:1337${props.auth.user.avatar}`} />
+                                        </ListItem>
+                                    </Link>
+                                ) : null}
                                 {navLinks.map(({ title, path }) => {
                                     return (
                                         <Link key={title} to={path} className={classes.linkText}>

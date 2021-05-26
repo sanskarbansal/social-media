@@ -49,6 +49,7 @@ export const fetchPosts =
         fetch(APIurls.getPosts(limit, page), {
             method: "GET",
             headers: {
+                "Content-Type": "application/json",
                 Authorization: `Bearer ${window.localStorage.getItem("token")}`,
             },
         })

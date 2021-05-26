@@ -13,18 +13,18 @@ router.get("/get", async (req, res) => {
     let posts = await Post.find({})
         .populate({
             path: "comments",
-            select: "user likes body",
+            select: "user likes body avatar",
             populate: {
                 path: "likes user",
-                select: "firstName lastName  user",
+                select: "firstName lastName  user avatar",
                 populate: {
                     path: "user",
-                    select: "firstName lastName",
+                    select: "firstName lastName avatar",
                 },
             },
         })
-        .populate({ path: "user", select: "firstName lastName " })
-        .populate({ path: "likes", select: "user", populate: { path: "user", select: "firstName lastName" } })
+        .populate({ path: "user", select: "firstName lastName avatar" })
+        .populate({ path: "likes", select: "user", populate: { path: "user", select: "firstName lastName avatar" } })
         .sort("-createdAt")
         .limit(limit)
         .skip((page - 1) * limit);
@@ -44,7 +44,7 @@ router.get("/get", async (req, res) => {
 router.post("/create", async (req, res) => {
     const { body } = req.body;
     let post = await Post.create({ user: req.user._id, body });
-    post = await post.populate({ path: "user", select: "firstName lastName username" }).execPopulate();
+    post = await post.populate({ path: "user", select: "firstName lastName username avatar" }).execPopulate();
     if (!post)
         return res.status(404).json({
             error: "ERROR OCCURRED WHILE CREATING A POST!",

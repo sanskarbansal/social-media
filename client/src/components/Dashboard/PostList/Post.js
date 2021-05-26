@@ -1,4 +1,4 @@
-import { Grid, Card, CardContent, CardHeader, Typography, CardActions, Button, makeStyles, Divider, IconButton, ButtonGroup } from "@material-ui/core";
+import { Grid, Avatar, Card, CardContent, CardHeader, Typography, CardActions, Button, makeStyles, Divider, IconButton, ButtonGroup } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import React, { useRef } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -17,7 +17,7 @@ export default function Post(props) {
     const {
         body,
         createdAt,
-        user: { firstName, lastName },
+        user: { firstName, lastName, avatar },
         likes,
     } = props.post;
     const classes = useStyles();
@@ -31,6 +31,7 @@ export default function Post(props) {
         }
     });
     const ourPost = props.post.user._id === props.userId;
+    console.log(avatar);
     return (
         <Card variant="elevation">
             <CardHeader
@@ -41,7 +42,14 @@ export default function Post(props) {
                         </IconButton>
                     )
                 }
-                title={`${firstName} ${lastName}`}
+                title={
+                    <>
+                        <Avatar src={`http://localhost:1337${avatar}`} style={{ display: "inline-block" }} alt={firstName} />
+                        <Typography style={{ display: "inline-block", marginLeft: 5, verticalAlign: "supper" }} variant="h5">
+                            {firstName} {lastName}
+                        </Typography>
+                    </>
+                }
                 subheader={createdAt}
             />
 

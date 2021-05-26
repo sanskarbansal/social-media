@@ -54,15 +54,14 @@ export const signUpSuccess = () => ({
     type: SIGNUP_SUCCESS,
     message: "SIGNED UP SUCCESSFULLY",
 });
-export const signup = (userDetails) => (dispatch) => {
-    const { firstName, lastName, username, email, number, password } = userDetails;
+export const signup = (formdata) => (dispatch) => {
+    // const { firstName, lastName, username, email, number, password, avatar } = userDetails;
     dispatch(signUpStart());
+    console.log(formdata);
     fetch(APIurls.signup, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ firstName, lastName, username, email, mobileNumber: number, password }),
+        // body: JSON.stringify({ firstName, lastName, username, email, mobileNumber: number, password, avatar }),
+        body: formdata,
     })
         .then((res) => res.json())
         .then((data) => {

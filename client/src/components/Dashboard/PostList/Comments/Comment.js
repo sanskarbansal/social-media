@@ -6,6 +6,7 @@ import { toggleLike } from "../../../../actions/posts";
 
 function Comment(props) {
     const { comment } = props;
+    console.log(comment);
     const toggleLikeHandler = () => {
         props.dispatch(toggleLike(props.comment._id, props.pId));
     };
@@ -13,9 +14,7 @@ function Comment(props) {
         <React.Fragment key={comment._id}>
             <ListItem>
                 <ListItemAvatar>
-                    <Avatar>
-                        <AccountCircleIcon />
-                    </Avatar>
+                    <Avatar src={`http://localhost:1337${comment.user.avatar}`} />
                 </ListItemAvatar>
                 <Paper style={{ width: "100%", padding: "3px 15px" }} elevation={1}>
                     <ListItemText

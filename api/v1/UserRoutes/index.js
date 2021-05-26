@@ -2,23 +2,31 @@ const express = require("express");
 const User = require("../../../models/User");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const path = require("path");
+const multer = require("multer");
 
 //Check if user already exists or not, if user exists, then don't create else create a new user.
 router.post("/signup", async (req, res) => {
-    const { firstName, lastName, username, password, mobileNumber, email } = req.body;
-    let user = await User.findOne({ $or: [{ username }, { mobileNumber }, { email }] });
-    if (user) {
-        return res.status(404).json({
-            error: "USER ALREADY EXISTS",
+    User.uploadAvatar(req, res, async (err) => {
+        const { firstName, lastName, username, password, mobileNumber, email } = req.body;
+        if (err) res.json({ error: "Error while uploading image." });
+        let user = await User.findOne({ $or: [{ username }, { mobileNumber }, { email }] });
+        if (user) {
+            return res.status(404).json({
+                error: "USER ALREADY EXISTS",
+            });
+        }
+        if (req.file)
+            user = await User.create({ firstName, lastName, username, password, mobileNumber, email, avatar: User.AVATAR_PATH + "/" + req.file.filename });
+        else user = await User.create({ firstName, lastName, username, password, mobileNumber, email });
+
+        if (user)
+            return res.status(200).json({
+                message: "USER CREATED SUCCESSFULLY",
+            });
+        res.status(404).json({
+            error: "ERROR WHILE CREATING USER",
         });
-    }
-    user = await User.create({ ...req.body });
-    if (user)
-        return res.status(200).json({
-            message: "USER CREATED SUCCESSFULLY",
-        });
-    res.status(404).json({
-        error: "ERROR WHILE CREATING USER",
     });
 });
 
@@ -30,8 +38,8 @@ router.post("/login", async (req, res) => {
         return res.status(403).json({
             error: "WRONG EMAIL/PASSWORD",
         });
-    const { firstName, lastName, email, mobileNumber, address, _id } = user;
-    const token = jwt.sign(JSON.stringify({ username, firstName, lastName, email, mobileNumber, address, _id }), process.env.SECRETE_KEY);
+    const { firstName, lastName, email, mobileNumber, address, _id, avatar } = user;
+    const token = jwt.sign(JSON.stringify({ username, firstName, lastName, email, mobileNumber, address, _id, avatar }), process.env.SECRETE_KEY);
     res.status(200).json({
         token,
     });
