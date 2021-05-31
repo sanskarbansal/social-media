@@ -55,8 +55,8 @@ router.get("/", async (req, res) => {
     const users = await User.find({
         $or: [{ firstName: { $regex: s, $options: "m" } }, { username: { $regex: s, $options: "m" } }],
     })
-        .select("firstName lastName username email mobileNumber friends")
-        .populate({ path: "friends", select: "firstName lastName username" })
+        .select("firstName lastName username email mobileNumber friends avatar")
+        .populate({ path: "friends", select: "firstName lastName username avatar" })
         .limit(limit || 5)
         .skip((page - 1) * (limit || 5));
     res.json({

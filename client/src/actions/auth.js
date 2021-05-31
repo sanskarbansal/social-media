@@ -35,7 +35,7 @@ export const loginFailed = (error) => ({
 });
 
 export const setUser = (user) => (dispatch) => {
-    dispatch(fetchPosts(1));
+    // dispatch(fetchPosts(1));
     dispatch({
         type: LOGIN_SUCCESS,
         user,

@@ -1,13 +1,31 @@
-import React, { Component } from "react";
-import { Button, Grid } from "@material-ui/core";
+import React, { Component, createRef } from "react";
+import { Button, CircularProgress, Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 import Post from "./Post";
-import { fetchPosts } from "../../../actions/posts";
+import { clearPost, fetchPosts } from "../../../actions/posts";
 // import {fret }
 class PostList extends Component {
-    state = {
-        currentPage: 1,
-    };
+    constructor(props) {
+        super(props);
+        this.triggerFetch = createRef();
+        this.observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                this.handleShowMore();
+            }
+        });
+        this.state = {
+            currentPage: 1,
+        };
+    }
+    componentDidMount() {
+        if (this.triggerFetch.current) this.observer.observe(this.triggerFetch.current);
+        this.handleShowMore();
+    }
+    componentWillUnmount() {
+        this.observer.disconnect();
+        this.props.dispatch(clearPost());
+    }
+
     handleShowMore = () => {
         this.props.dispatch(fetchPosts(this.state.currentPage + 1));
         this.setState((prevState) => ({
@@ -15,9 +33,10 @@ class PostList extends Component {
             currentPage: prevState.currentPage + 1,
         }));
     };
-    render() {
-        const { posts } = this.props.posts;
 
+    render() {
+        const { posts, loading, morePosts } = this.props.posts;
+        if (!morePosts) this.observer.disconnect();
         return (
             <Grid container direction="column" alignItems="center" spacing={2}>
                 {posts.map((post) => (
@@ -25,9 +44,13 @@ class PostList extends Component {
                         <Post post={post} dispatch={this.props.dispatch} userId={this.props.user._id} />
                     </Grid>
                 ))}
-                <Button variant="outlined" onClick={this.handleShowMore}>
-                    Show More
-                </Button>
+                {morePosts ? (
+                    <div ref={this.triggerFetch} id="trigger_fetch">
+                        {loading && <CircularProgress />}
+                    </div>
+                ) : (
+                    "Damn! You scroll a lot, you read all the posts 😕"
+                )}
             </Grid>
         );
     }

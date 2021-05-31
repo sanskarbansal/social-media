@@ -1,5 +1,5 @@
-import { UPDATE_POSTS, SET_LOADING, ADD_POST, TOGGLE_LIKE, DELETE_POST, LOGOUT_USER, ADD_COMMENT } from "../actions/actionTypes";
-export default function posts(state = { posts: [], loading: false }, action) {
+import { UPDATE_POSTS, SET_LOADING, ADD_POST, TOGGLE_LIKE, DELETE_POST, LOGOUT_USER, ADD_COMMENT, CLEAR_POSTS } from "../actions/actionTypes";
+export default function posts(state = { posts: [], loading: false, morePosts: true }, action) {
     switch (action.type) {
         case SET_LOADING:
             return {
@@ -63,7 +63,18 @@ export default function posts(state = { posts: [], loading: false }, action) {
                 ...state,
                 posts: psts,
             };
+        case CLEAR_POSTS:
+            return {
+                ...state,
+                posts: [],
+            };
         case UPDATE_POSTS:
+            if (action.posts.length === 0) {
+                return {
+                    ...state,
+                    morePosts: false,
+                };
+            }
             return { ...state, posts: [...state.posts, ...action.posts], loading: false };
         default:
             return state;

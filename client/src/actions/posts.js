@@ -1,5 +1,5 @@
 import { APIurls } from "../helpers/urls";
-import { ADD_COMMENT, ADD_POST, DELETE_POST, SET_LOADING, TOGGLE_LIKE, UPDATE_POSTS } from "./actionTypes";
+import { ADD_COMMENT, ADD_POST, DELETE_POST, SET_LOADING, TOGGLE_LIKE, UPDATE_POSTS, CLEAR_POSTS } from "./actionTypes";
 // export const fetchPosts = () => {
 //     return (dispatch) => {
 //         const url = "https://jsonplaceholder.typicode.com/posts";
@@ -44,8 +44,9 @@ export const createPost = (post) => (dispatch) => {
         });
 };
 export const fetchPosts =
-    (page, limit = 5) =>
+    (page, limit = 1) =>
     (dispatch) => {
+        dispatch(setLoading(true));
         fetch(APIurls.getPosts(limit, page), {
             method: "GET",
             headers: {
@@ -88,6 +89,10 @@ export function toggleLike(likeOfId) {
 export const updateDeletedPost = (postId) => ({
     type: DELETE_POST,
     postId,
+});
+
+export const clearPost = () => ({
+    type: CLEAR_POSTS,
 });
 
 export const deletePost = (postId) => (dispatch) => {

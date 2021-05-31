@@ -19,6 +19,7 @@ export const LOGOUT_USER = "LOGOUT_USER";
 export const ADD_POST = "ADD_POST";
 export const ADD_POSTS = "ADD_POSTS";
 export const DELETE_POST = "DELETE_POST";
+export const CLEAR_POSTS = "CLEAR_POSTS";
 
 //ACTIONS FOR COMMENTS
 

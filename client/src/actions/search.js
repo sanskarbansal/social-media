@@ -7,7 +7,7 @@ export const updateSearch = (results) => ({
 });
 
 export const searchUsers =
-    (query, pageNumber = 1, limit = 1) =>
+    (query, pageNumber = 1, limit = 5) =>
     (dispatch) => {
         fetch(APIurls.searchUser(query, pageNumber, limit), {
             method: "GET",

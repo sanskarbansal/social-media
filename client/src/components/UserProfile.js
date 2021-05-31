@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, CardHeader, CircularProgress, Divider, Grid, Typography } from "@material-ui/core";
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CircularProgress, Divider, Grid, Typography } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { APIurls } from "../helpers/urls";
 
@@ -25,9 +25,7 @@ export default function UserProfile(props) {
             });
     };
     const userId = props.match.params.userId;
-    console.log(props);
     useEffect(() => {
-        console.log(APIurls.getUser, userId);
         fetch(`${APIurls.getUser}${userId}`, {
             method: "GET",
             headers: {
@@ -42,7 +40,7 @@ export default function UserProfile(props) {
                 setLoading(false);
             });
     }, [userId, loading]);
-    const { firstName, lastName, email, friends, username } = user;
+    const { firstName, lastName, email, friends, username, avatar } = user;
     console.log(friendship, userId);
     let btnMessage;
     let isDisabled = true;
@@ -65,8 +63,9 @@ export default function UserProfile(props) {
     }
 
     return (
-        <Grid container alignItems="center" justify="center">
-            <Grid item md={6}>
+        <Grid container alignItems="center" justify="center" direction="column">
+            <Avatar src={`http://localhost:1337${avatar}`} style={{ width: "150px", height: "150px" }} />
+            <Grid item md={6} style={{ width: "100%" }}>
                 <Card style={{ width: "100%" }} elevation={2}>
                     <CardHeader subheader={email} title={firstName + " " + lastName} />
                     <Divider />

@@ -31,7 +31,6 @@ export default function Post(props) {
         }
     });
     const ourPost = props.post.user._id === props.userId;
-    console.log(avatar);
     return (
         <Card variant="elevation">
             <CardHeader

@@ -71,7 +71,7 @@ router.post("/accept", async (req, res) => {
 router.get("/:userId", async (req, res) => {
     const { userId } = req.params;
     if (!userId || userId.length != 24) return res.json({ error: "Invalid user id" });
-    const user = await User.findById(userId).select("firstName lastName username friends email address");
+    const user = await User.findById(userId).select("firstName lastName username friends email address avatar");
     if (!user) return res.json({ message: "No such user found." });
     const fr = await Friendship.find({
         $or: [
